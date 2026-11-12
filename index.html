@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Kerja Guru - Studio Perangkat Ajar</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8F7F4; }
+    </style>
+</head>
+<body class="text-zinc-800 antialiased py-8 px-4 flex justify-center">
+
+    <div class="w-full max-w-md bg-[#F4F1EA] rounded-3xl p-6 shadow-sm border border-zinc-200">
+        
+        <!-- Header Section -->
+        <div class="mb-6">
+            <span class="inline-block bg-[#E3E8E1] text-[#2C4A3E] text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                RUANG KERJA GURU SMP
+            </span>
+            <h1 class="text-2xl font-bold tracking-tight text-zinc-900 leading-snug">
+                Rancang pembelajaran, rapikan administrasi.
+            </h1>
+            <p class="text-xs text-zinc-600 mt-2 leading-relaxed">
+                Buat draf perangkat ajar SMP untuk 13 mata pelajaran, dari CP dan ATP hingga Prota, Promes, silabus, modul ajar/RPP, dan LKPD.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-zinc-200/80 space-y-4">
+            
+            <!-- Input API Key (Supaya bisa connect langsung ke Gemini) -->
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                <label class="block text-xs font-semibold text-amber-800 mb-1">Gemini API Key</label>
+                <input type="password" id="apiKey" placeholder="Tempel API Key Anda di sini" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500/20">
+                <span class="text-[10px] text-amber-700 mt-1 block">Kunci aman tersimpan otomatis di browser Anda.</span>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <h2 class="font-bold text-zinc-900 text-base">Studio perangkat ajar</h2>
+                <span class="text-lg">✨</span>
+            </div>
+            <p class="text-xs text-zinc-500">Pilih kebutuhan Anda, lalu lengkapi konteks pembelajaran.</p>
+
+            <!-- Jenis Dokumen -->
+            <div>
+                <label class="block text-xs font-medium text-zinc-700 mb-1">Jenis dokumen</label>
+                <select id="jenisDokumen" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none">
+                    <option value="Alur Tujuan Pembelajaran (ATP)">Alur Tujuan Pembelajaran (ATP)</option>
+                    <option value="Modul Ajar / RPP">Modul Ajar / RPP</option>
+                    <option value="Program Tahunan (Prota)">Program Tahunan (Prota)</option>
+                    <option value="Program Semester (Promes)">Program Semester (Promes)</option>
+                    <option value="Lembar Kerja Peserta Didik (LKPD)">Lembar Kerja Peserta Didik (LKPD)</option>
+                    <option value="Kisi-Kisi Asesmen Sumatif">Kisi-Kisi Asesmen Sumatif</option>
+                </select>
+            </div>
+
+            <!-- Mata Pelajaran -->
+            <div>
+                <label class="block text-xs font-medium text-zinc-700 mb-1">Mata pelajaran</label>
+                <select id="mapel" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none">
+                    <option value="Informatika">Informatika</option>
+                    <option value="Matematika (MTK)">Matematika (MTK)</option>
+                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                    <option value="Ilmu Pengetahuan Alam (IPA)">Ilmu Pengetahuan Alam (IPA)</option>
+                    <option value="Ilmu Pengetahuan Sosial (IPS)">Ilmu Pengetahuan Sosial (IPS)</option>
+                    <option value="Bahasa Inggris">Bahasa Inggris</option>
+                    <option value="Pendidikan Agama dan Budi Pekerti">Pendidikan Agama dan Budi Pekerti</option>
+                    <option value="PPKn">PPKn</option>
+                    <option value="Seni Budaya">Seni Budaya</option>
+                    <option value="Pendidikan Jasmani dan Kesehatan">Pendidikan Jasmani dan Kesehatan</option>
+                </select>
+            </div>
+
+            <!-- Kelas & Semester -->
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-medium text-zinc-700 mb-1">Kelas</label>
+                    <select id="kelas" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm">
+                        <option value="VII">VII (Tujuh)</option>
+                        <option value="VIII" selected>VIII (Delapan)</option>
+                        <option value="IX">IX (Sembilan)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-zinc-700 mb-1">Semester</label>
+                    <select id="semester" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm">
+                        <option value="1 / Ganjil">1 / Ganjil</option>
+                        <option value="2 / Genap">2 / Genap</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Topik atau materi -->
+            <div>
+                <label class="block text-xs font-medium text-zinc-700 mb-1">Topik atau materi</label>
+                <input type="text" id="topik" placeholder="Misalnya: Berpikir Komputasional" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none">
+            </div>
+
+            <!-- Alokasi Waktu -->
+            <div>
+                <label class="block text-xs font-medium text-zinc-700 mb-1">Alokasi waktu (JP)</label>
+                <input type="number" id="alokasiWaktu" value="8" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2.5 text-sm">
+            </div>
+
+            <!-- Konteks tambahan -->
+            <div>
+                <label class="block text-xs font-medium text-zinc-700 mb-1">Konteks tambahan (opsional)</label>
+                <textarea id="konteks" rows="2" placeholder="Capaian pembelajaran, kebutuhan murid, atau konteks sekolah" class="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2 text-sm focus:outline-none"></textarea>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <button onclick="handleGenerate()" id="btnSubmit" class="w-full bg-[#1B362D] hover:bg-[#12241E] text-white font-medium py-3 rounded-xl text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer">
+                <span>Buat draf dokumen</span>
+            </button>
+        </div>
+
+        <!-- Hasil Draf Section -->
+        <div id="hasilSection" class="mt-5 bg-white rounded-2xl p-5 shadow-xs border border-zinc-200/80 hidden">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-zinc-900 text-sm">Hasil draf</h3>
+                <div class="flex gap-2">
+                    <button onclick="salinTeks()" class="text-xs bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-lg font-medium transition cursor-pointer">Salin draf</button>
+                </div>
+            </div>
+            <div id="loadingIndicator" class="text-center py-6 text-zinc-500 text-xs hidden">
+                <span class="animate-pulse">Sedang merancang perangkat ajar dengan Gemini AI... Mohon tunggu sebentar.</span>
+            </div>
+            <div id="drafContent" class="text-xs text-zinc-700 whitespace-pre-wrap bg-zinc-50 p-3 rounded-xl max-h-64 overflow-y-auto border border-zinc-100 leading-relaxed">
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <p class="text-[11px] text-zinc-500 text-center mt-5 leading-normal px-2">
+            Draf adalah titik awal. Guru tetap meninjau tujuan, materi, asesmen, dan deskripsi rapor berdasarkan bukti belajar.
+        </p>
+    </div>
+
+    <script>
+        // Memuat API Key yang tersimpan di browser otomatis
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                document.getElementById('apiKey').value = savedKey;
+            }
+        });
+
+        async function handleGenerate() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const data = {
+                jenisDokumen: document.getElementById('jenisDokumen').value,
+                mapel: document.getElementById('mapel').value,
+                kelas: document.getElementById('kelas').value,
+                semester: document.getElementById('semester').value,
+                topik: document.getElementById('topik').value.trim(),
+                alokasiWaktu: document.getElementById('alokasiWaktu').value,
+                konteks: document.getElementById('konteks').value
+            };
+
+            if (!apiKey) {
+                alert('Mohon masukkan Gemini API Key terlebih dahulu di kolom atas!');
+                return;
+            }
+            if (!data.topik) {
+                alert('Mohon isi topik atau materi terlebih dahulu!');
+                return;
+            }
+
+            // Simpan API key ke browser
+            localStorage.setItem('gemini_api_key', apiKey);
+
+            const btn = document.getElementById('btnSubmit');
+            const hasilSection = document.getElementById('hasilSection');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const drafContent = document.getElementById('drafContent');
+
+            btn.disabled = true;
+            btn.innerText = "Sedang Menyusun...";
+            hasilSection.classList.remove('hidden');
+            loadingIndicator.classList.remove('hidden');
+            drafContent.innerText = "";
+
+            const prompt = `Bertindaklah sebagai Ahli Kurikulum dan Guru profesional. 
+            Buatkan draf dokumen administrasi pendidikan "${data.jenisDokumen}" yang mendalam, terstruktur rapi, dan sesuai dengan standar Kurikulum Merdeka.
+            
+            Data Pembelajaran:
+            - Mata Pelajaran: ${data.mapel}
+            - Kelas: ${data.kelas}
+            - Semester: ${data.semester}
+            - Topik / Materi: ${data.topik}
+            - Alokasi Waktu: ${data.alokasiWaktu} JP
+            - Konteks Tambahan / Catatan Khusus: ${data.konteks || "Tidak ada"}
+            
+            Ketentuan Penulisan:
+            - Gunakan format sub-judul yang jelas dan terstruktur bersih.
+            - Sesuaikan komponen dengan jenis dokumen (jika ATP memuat Capaian Pembelajaran dan Tujuan Pembelajaran; jika Modul Ajar memuat Identitas, Profil Pelajar Pancasila, Kegiatan Pembelajaran Pendahuluan/Inti/Penutup, serta Asesmen).
+            - Berikan isi yang lengkap, operasional, dan siap pakai oleh guru di kelas.`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{
+                    parts: [{ text: prompt }]
+                }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                loadingIndicator.classList.add('hidden');
+                btn.disabled = false;
+                btn.innerText = "Buat draf dokumen";
+
+                if (response.ok && result.candidates && result.candidates.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    drafContent.innerText = text;
+                } else {
+                    const errMsg = result.error ? result.error.message : 'Gagal terhubung ke Gemini.';
+                    drafContent.innerText = "Error: " + errMsg;
+                }
+
+            } catch (error) {
+                loadingIndicator.classList.add('hidden');
+                btn.disabled = false;
+                btn.innerText = "Buat draf dokumen";
+                drafContent.innerText = "Kesalahan Jaringan: " + error.message;
+            }
+        }
+
+        function salinTeks() {
+            const text = document.getElementById('drafContent').innerText;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Draf berhasil disalin ke clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
